@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SUAP IF Goiano — Protótipo interativo | IHC Fase 5</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header>
+    <div class="brand">
+      SUAP
+      <small>IF Goiano · protótipo acadêmico de IHC</small>
+    </div>
+    <button class="secondary" onclick="goHome()">⌂ Início</button>
+  </header>
+
+  <main class="wrap">
+
+    <div class="crumb" id="crumb">Área do estudante / Início</div>
+
+    <section id="home">
+      <h1>Olá! O que você precisa fazer?</h1>
+      <p class="muted">Escolha um processo acadêmico ou acompanhe as solicitações registradas nesta demonstração.</p>
+
+      <div class="grid">
+
+        <article class="tile">
+          <div class="symbol">◷</div>
+          <h3>Registrar horas complementares</h3>
+          <p>Informe a atividade, a carga horária e anexe o comprovante.</p>
+          <button onclick="start('hours')">Registrar horas →</button>
+        </article>
+
+        <article class="tile">
+          <div class="symbol">⇧</div>
+          <h3>Submeter projeto de extensão</h3>
+          <p>Preencha os dados do projeto e confira os documentos antes do envio.</p>
+          <button onclick="start('extension')">Submeter projeto →</button>
+        </article>
+
+        <article class="tile">
+          <div class="symbol">⌕</div>
+          <h3>Submeter projeto de pesquisa</h3>
+          <p>Registre a proposta de pesquisa e revise as informações fornecidas.</p>
+          <button onclick="start('research')">Submeter projeto →</button>
+        </article>
+
+      </div>
+
+      <div class="panel">
+        <h2>Minhas solicitações</h2>
+        <p class="muted">Os registros são salvos neste navegador para facilitar a demonstração. Não são enviados ao SUAP real.</p>
+
+        <div class="toolbar">
+          <input id="searchRecords" type="search" placeholder="Buscar por processo ou identificador"
+                 aria-label="Buscar solicitações" oninput="renderRecords()">
+
+          <select id="filterStatus" aria-label="Filtrar solicitações" onchange="renderRecords()">
+            <option value="all">Todos os status</option>
+            <option value="sent">Enviadas (demonstração)</option>
+          </select>
+        </div>
+
+        <div id="requests"></div>
+      </div>
+    </section>
+
+    <section id="formpage" class="hidden">
+      <h1 id="formtitle"></h1>
+      <p id="formdesc" class="muted"></p>
+
+      <div class="steps" aria-label="Etapas do formulário">
+        <div class="step active" id="st1"><strong>1</strong> Dados</div>
+        <div class="step" id="st2"><strong>2</strong> Documentos</div>
+        <div class="step" id="st3"><strong>3</strong> Revisão</div>
+      </div>
+
+      <div id="fields" class="panel"></div>
+
+      <div id="docs" class="panel hidden">
+        <h2>Documentos</h2>
+        <p>Selecione um arquivo fictício para simular a anexação. O arquivo não será enviado a nenhum servidor.</p>
+
+        <div class="filebox">
+          <label for="file">Comprovante / documento principal *</label>
+          <input type="file" id="file" accept=".pdf,.png,.jpg,.jpeg">
+          <span class="help">Formatos aceitos para esta demonstração: PDF, PNG ou JPG. Use um arquivo sem dados pessoais.</span>
+          <div id="filemeta"></div>
+          <div id="fileerr" class="field-error" role="alert"></div>
+        </div>
+      </div>
+
+      <div id="review" class="panel hidden">
+        <h2>Revise antes de enviar</h2>
+        <p class="muted">Confira as informações. Se precisar, volte para corrigir antes de confirmar.</p>
+        <div id="summary"></div>
+        <div class="alert">A confirmação registra uma simulação local. Não gera protocolo oficial nem envia dados ao SUAP.</div>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="secondary" id="cancel" onclick="cancelForm()">Cancelar</button>
+        <button type="button" class="secondary" id="back" onclick="prev()">← Voltar</button>
+        <button type="button" class="push" id="next" onclick="next()">Continuar →</button>
+      </div>
+    </section>
+
+    <section id="done" class="hidden">
+      <div class="panel">
+        <div class="success">
+          <h2>✓ Solicitação registrada no protótipo</h2>
+          <p id="doneText"></p>
+          <strong id="protocol"></strong>
+        </div>
+
+        <p class="muted">Este identificador é ilustrativo e não corresponde a um protocolo oficial.</p>
+
+        <div class="actions">
+          <button onclick="goHome()">Voltar ao início</button>
+          <button class="secondary" onclick="viewRecords()">Ver minhas solicitações</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="footer">IHC Fase 5 · João Victor de Oliveira e Thalles Soares · Protótipo não oficial do IF Goiano.</div>
+
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
